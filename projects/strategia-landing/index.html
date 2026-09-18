@@ -15,13 +15,15 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --primary: #0F172A;
+      --primary-2: #0B1223;
       --on-primary: #FFFFFF;
       --accent: #0369A1;
+      --accent-light: #38BDF8;
       --on-accent: #FFFFFF;
       --background: #F8FAFC;
       --foreground: #020617;
@@ -49,41 +51,68 @@
       margin: 0;
     }
 
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
     a { color: var(--accent); }
 
     .container {
-      max-width: 960px;
+      max-width: 1040px;
       margin: 0 auto;
       padding: 0 20px;
     }
 
     /* Hero */
     .hero {
-      background: var(--primary);
+      position: relative;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(3, 105, 161, 0.35), transparent 45%),
+        radial-gradient(circle at 85% 0%, rgba(56, 189, 248, 0.25), transparent 40%),
+        linear-gradient(180deg, var(--primary) 0%, var(--primary-2) 100%);
       color: var(--on-primary);
-      padding: 72px 20px 88px;
+      padding: 76px 20px 56px;
       text-align: center;
+      overflow: hidden;
     }
 
-    .hero .eyebrow {
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.9), transparent 75%);
+      pointer-events: none;
+    }
+
+    .hero .container { position: relative; }
+
+    .eyebrow {
       display: inline-block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: #93C5FD;
       background: rgba(3, 105, 161, 0.25);
+      border: 1px solid rgba(56, 189, 248, 0.35);
       padding: 6px 14px;
       border-radius: 999px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .hero h1 {
       color: var(--on-primary);
-      font-size: clamp(1.9rem, 4vw, 2.75rem);
+      font-size: clamp(2rem, 4.2vw, 2.9rem);
       line-height: 1.15;
-      max-width: 720px;
-      margin: 0 auto 16px;
+      max-width: 760px;
+      margin: 0 auto 18px;
     }
 
     .hero p.subhead {
@@ -93,18 +122,53 @@
       font-size: 1.05rem;
     }
 
-    .hero-cta {
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 44px;
+    }
+
+    .btn {
       display: inline-block;
-      background: var(--whatsapp);
-      color: #fff;
-      font-weight: 700;
       text-decoration: none;
-      padding: 14px 28px;
+      font-weight: 700;
+      padding: 14px 26px;
       border-radius: 8px;
       font-size: 1rem;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
     }
-    .hero-cta:hover { background-color: var(--whatsapp-hover); }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary { background: var(--whatsapp); color: #fff; }
+    .btn-primary:hover { background-color: var(--whatsapp-hover); }
+
+    .btn-ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.35); }
+    .btn-ghost:hover { border-color: #fff; }
+
+    /* Event-style info bar */
+    .info-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .info-bar .info-item {
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(6px);
+      padding: 16px 18px;
+      text-align: left;
+    }
+
+    .info-item .label { color: #7DD3FC; display: block; margin-bottom: 4px; }
+    .info-item .value { font-weight: 600; font-size: 0.95rem; }
 
     /* Trust strip */
     .trust-strip {
@@ -122,7 +186,7 @@
       font-weight: 500;
     }
 
-    /* Services */
+    /* Sections */
     .section {
       padding: 64px 20px;
     }
@@ -140,6 +204,7 @@
       margin: 0 auto 40px;
     }
 
+    /* Services */
     .services-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -148,6 +213,7 @@
 
     .card {
       border: 1px solid var(--border);
+      border-top: 3px solid var(--accent);
       padding: 24px;
       border-radius: 12px;
       text-align: center;
@@ -182,19 +248,75 @@
       text-decoration: line-through;
     }
 
-    /* Form */
+    /* Registration section (event-ticket style, 2 columns) */
     .form-section {
       background: var(--card);
       border-top: 1px solid var(--border);
     }
 
-    form {
-      max-width: 480px;
+    .register-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+      max-width: 900px;
       margin: 0 auto;
+    }
+
+    @media (max-width: 760px) {
+      .register-layout { grid-template-columns: 1fr; }
+    }
+
+    .register-info h2 { text-align: left; margin-bottom: 14px; }
+
+    .perks {
+      list-style: none;
+      margin: 0 0 28px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .perks li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.95rem;
+      color: var(--foreground);
+    }
+
+    .perks li .check {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #DCFCE7;
+      color: #16A34A;
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .agent-note {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      background: var(--background);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      color: var(--muted-foreground);
+    }
+
+    form {
       background: var(--background);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 32px;
+      padding: 28px;
     }
 
     .form-group {
@@ -262,9 +384,27 @@
 
     footer {
       text-align: center;
-      padding: 28px 20px;
+      padding: 28px 20px 96px;
       color: var(--muted-foreground);
       font-size: 0.85rem;
+    }
+
+    /* Sticky mobile CTA */
+    .sticky-cta {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 12px 16px;
+      box-shadow: 0 -6px 16px rgba(2, 6, 23, 0.08);
+      z-index: 50;
+    }
+
+    @media (max-width: 640px) {
+      .sticky-cta { display: block; }
     }
   </style>
 </head>
@@ -275,7 +415,30 @@
     <span class="eyebrow">StrategIA · Automatización &amp; IA</span>
     <h1>Diagnóstico, automatización e IA para escalar tu negocio</h1>
     <p class="subhead">Meta Ads, agentes de IA, CRM y la plataforma Nivirus en un solo lugar. Agenda tu diagnóstico gratuito y habla directo con nuestro agente de IA por WhatsApp.</p>
-    <a class="hero-cta" href="#form">Agenda tu diagnóstico gratuito</a>
+
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#registro">Agenda tu diagnóstico gratuito</a>
+      <a class="btn btn-ghost" href="#servicios">Ver servicios</a>
+    </div>
+
+    <div class="info-bar">
+      <div class="info-item">
+        <span class="label">Modalidad</span>
+        <span class="value">💻 100% online</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Duración</span>
+        <span class="value">⏱️ Diagnóstico de 30 min</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Costo</span>
+        <span class="value">🎟️ Sin costo inicial</span>
+      </div>
+      <div class="info-item">
+        <span class="label">Respuesta</span>
+        <span class="value">🤖 Inmediata por IA</span>
+      </div>
+    </div>
   </div>
 </header>
 
@@ -318,43 +481,59 @@
     </div>
   </section>
 
-  <section class="section form-section" id="form">
+  <section class="section form-section" id="registro">
     <div class="container">
-      <h2>Solicita tu Diagnóstico</h2>
-      <p class="lead">Completa el formulario y te contactamos por WhatsApp en minutos.</p>
+      <div class="register-layout">
+        <div class="register-info">
+          <span class="label" style="color:var(--accent);">Regístrate</span>
+          <h2>Reserva tu lugar en el diagnóstico</h2>
+          <p style="color:var(--muted-foreground); margin: 10px 0 24px;">Cupo limitado por semana para dar seguimiento personal a cada empresa.</p>
 
-      <form id="leadForm" novalidate>
-        <!-- Honeypot anti-spam: real users never see or fill this -->
-        <div class="form-group hp-field" aria-hidden="true">
-          <label for="website">No llenar este campo</label>
-          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          <ul class="perks">
+            <li><span class="check">✓</span> Revisión de tu operación actual y oportunidades de automatización</li>
+            <li><span class="check">✓</span> Recomendación de servicio (Meta Ads, IA, CRM o Nivirus) según tu etapa</li>
+            <li><span class="check">✓</span> Plan de acción por escrito, sin compromiso de compra</li>
+          </ul>
+
+          <div class="agent-note">
+            <span style="font-size:1.4rem;">🤖</span>
+            <span>Al enviar el formulario, nuestro <strong>agente de IA de StrategIA</strong> te responde por WhatsApp en minutos.</span>
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="nombre">Nombre Completo</label>
-          <input type="text" id="nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre">
-        </div>
-        <div class="form-group">
-          <label for="empresa">Empresa</label>
-          <input type="text" id="empresa" name="empresa" required autocomplete="organization" placeholder="Nombre de tu empresa">
-        </div>
-        <div class="form-group">
-          <label for="whatsapp">WhatsApp</label>
-          <input type="tel" id="whatsapp" name="whatsapp" required autocomplete="tel" placeholder="+52 1 871 586 7181">
-        </div>
-        <div class="form-group">
-          <label for="servicio">Servicio de Interés</label>
-          <select id="servicio" name="servicio" required autocomplete="off">
-            <option value="">Selecciona una opción</option>
-            <option value="Meta Ads 2026">Actualización Meta Ads 2026</option>
-            <option value="Precisión Autónoma">Precisión Autónoma</option>
-            <option value="Empresas Híbridas">Empresas Híbridas</option>
-            <option value="Nivirus">Nivirus (SaaS)</option>
-          </select>
-        </div>
-        <button type="submit" id="submitBtn">Enviar a WhatsApp</button>
-        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-      </form>
+        <form id="leadForm" novalidate>
+          <!-- Honeypot anti-spam: real users never see or fill this -->
+          <div class="form-group hp-field" aria-hidden="true">
+            <label for="website">No llenar este campo</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="nombre">Nombre Completo</label>
+            <input type="text" id="nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label for="empresa">Empresa</label>
+            <input type="text" id="empresa" name="empresa" required autocomplete="organization" placeholder="Nombre de tu empresa">
+          </div>
+          <div class="form-group">
+            <label for="whatsapp">WhatsApp</label>
+            <input type="tel" id="whatsapp" name="whatsapp" required autocomplete="tel" placeholder="+52 1 871 586 7181">
+          </div>
+          <div class="form-group">
+            <label for="servicio">Servicio de Interés</label>
+            <select id="servicio" name="servicio" required autocomplete="off">
+              <option value="">Selecciona una opción</option>
+              <option value="Meta Ads 2026">Actualización Meta Ads 2026</option>
+              <option value="Precisión Autónoma">Precisión Autónoma</option>
+              <option value="Empresas Híbridas">Empresas Híbridas</option>
+              <option value="Nivirus">Nivirus (SaaS)</option>
+            </select>
+          </div>
+          <button type="submit" id="submitBtn">Enviar a WhatsApp</button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
   </section>
 </main>
@@ -362,6 +541,10 @@
 <footer>
   © 2026 StrategIA. Todos los derechos reservados.
 </footer>
+
+<div class="sticky-cta">
+  <a class="btn btn-primary" style="display:block; text-align:center;" href="#registro">Agenda tu diagnóstico gratuito</a>
+</div>
 
 <script>
   // Agente de IA de StrategIA en WhatsApp
